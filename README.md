@@ -1,4 +1,4 @@
-﻿# VeriFrame â€” Deepfake Verification Platform
+﻿# VeriFrame Deepfake Verification Platform
 
 VeriFrame is a web-based deepfake video verification platform integrating four detection models into a unified analysis pipeline.
 
@@ -193,43 +193,45 @@ For a production frontend build, run:
 
 ```text
 VeriFrame/
-â”‚
-â”œâ”€â”€ backend/
-â”‚   â”œâ”€â”€ app/
-â”‚   â”‚   â”œâ”€â”€ api/
-â”‚   â”‚   â”œâ”€â”€ services/
-â”‚   â”‚   â””â”€â”€ ...
-â”‚   â”œâ”€â”€ model_assets/
-â”‚   â”‚   â”œâ”€â”€ GenD/
-â”‚   â”‚   â”œâ”€â”€ Effort/
-â”‚   â”‚   â””â”€â”€ FakeSTormer/
-â”‚   â”œâ”€â”€ model_sources/
-â”‚   â”‚   â”œâ”€â”€ gend/
-â”‚   â”‚   â”œâ”€â”€ effort/
-â”‚   â”‚   â””â”€â”€ fakestormer/
-â”‚   â”œâ”€â”€ requirements.txt
-â”‚   â”œâ”€â”€ requirements-gend.txt
-â”‚   â”œâ”€â”€ requirements-xception.txt
-â”‚   â”œâ”€â”€ requirements-fakestormer.txt
-â”‚   â”œâ”€â”€ download_veriframe_models.py
-â”‚   â””â”€â”€ ...
-â”‚
-â”œâ”€â”€ frontend/
-â”‚   â”œâ”€â”€ src/
-â”‚   â”œâ”€â”€ package.json
-â”‚   â”œâ”€â”€ package-lock.json
-â”‚   â””â”€â”€ ...
-â”‚
-â”œâ”€â”€ model_assets/
-â”‚   â””â”€â”€ Xception/
-â”‚       â””â”€â”€ xception_custom_best.pth
-â”‚
-â”œâ”€â”€ integration_tests/
-â”œâ”€â”€ validation/
-â”œâ”€â”€ .env.example
-â”œâ”€â”€ .gitattributes
-â”œâ”€â”€ .gitignore
-â””â”€â”€ README.md
+|
++-- backend/
+|   +-- app/
+|   |   +-- api/
+|   |   +-- services/
+|   |   +-- ...
+|   |
+|   +-- model_assets/
+|   +-- GenD/
+|   +-- Effort/
+|   +-- FakeSTormer/
+|   +-- model_sources/
+|   |   +-- gend/
+|   |   +-- effort/
+|   |   +-- fakestormer/
+|   |
+|   +-- requirements.txt
+|   +-- requirements-gend.txt
+|   +-- requirements-xception.txt
+|   +-- requirements-fakestormer.txt
+|   +-- download_veriframe_models.py
+|   +-- ...
+|
++-- frontend/
+|   +-- src/
+|   +-- package.json
+|   +-- package-lock.json
+|   +-- ...
+|
++-- model_assets/
+|   +-- Xception/
+|       +-- xception_custom_best.pth
+|
++-- integration_tests/
++-- validation/
++-- .env.example
++-- .gitattributes
++-- .gitignore
++-- README.md
 ```
 ## 10. Model architecture
 
