@@ -1,0 +1,133 @@
+﻿# ==================================================
+# Python environments and cache
+# ==================================================
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+.venv-*/
+venv/
+
+# ==================================================
+# Node.js
+# ==================================================
+node_modules/
+dist/
+*.tsbuildinfo
+
+# ==================================================
+# Environment variables and secrets
+# ==================================================
+.env
+.env.*
+!.env.example
+
+# ==================================================
+# Runtime data and temporary files
+# ==================================================
+/runtime/
+/backend/runtime/
+**/runtime/uploads/
+*.tmp
+*.log
+*.db
+*.db-shm
+*.db-wal
+
+# ==================================================
+# Archives and backups
+# ==================================================
+*.zip
+*.7z
+*.rar
+*.backup
+*.bak
+*.old
+*.orig
+*_backup.*
+*_before_*.tsx
+*_before_*.css
+
+# ==================================================
+# Model weights: ignored by default
+# ==================================================
+*.pth
+*.pt
+*.ckpt
+*.onnx
+*.safetensors
+
+# ==================================================
+# Generated validation outputs
+# Keep validation scripts, CSV manifests, pair lists and splits
+# ==================================================
+/validation/all_raw_results.json
+/validation/batch_results/
+/validation/**/individual_results/
+/validation/**/api_results/
+/validation/**/calibration_audit/
+/validation/**/videos/
+/validation/**/videos_v2/
+/validation/**/results_v2/
+/validation/**/submission_state.json
+
+# ==================================================
+# Generated reports and temporary data
+# ==================================================
+/backend/app/services/veriframe_report_*.pdf
+*.jsonl
+
+# ==================================================
+# IDE and operating system
+# ==================================================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ==================================================
+# Local GenD diagnostic files
+# ==================================================
+/gend_*_test.jpg
+/test_gend_*.py
+
+# ==================================================
+
+# Additional backup files
+*.bak*
+
+# Generated validation inference outputs
+/validation/**/inference_results/
+
+# Xception binaries excluded pending redistribution-term verification
+/model_assets/Xception/xception_custom_best.pth
+/backend/model_sources/xception/preprocessing/dlib_tools/shape_predictor_81_face_landmarks.dat
+
+# Local development backups
+*.before_*
+
+# Effort reuses the shared GenD CLIP backbone
+/backend/model_assets/Effort/clip-vit-large-patch14/
+# Local FaceForensics++ validation manifests and generated results
+/validation/matched_validation_results.csv
+/validation/matched_10_pairs.csv
+/validation/calibration_test_split/calibration_pairs.csv
+/validation/calibration_test_split/independent_test_pairs.csv
+/validation/calibration_test_split/calibration_parameters.json
+/validation/robustness/source_disjoint/source_disjoint_20_pairs.csv
+/validation/robustness/source_disjoint/transformed_videos_manifest.csv
+# Local API inspection and generated video metadata
+/validation/backend_api_inspection.txt
+/validation/robustness/source_disjoint/transformed_video_properties.csv
+
+# Local Effort diagnostic source dump
+/backend/model_sources/effort/effort_model_loading_reference.txt
+
+
+# GenD and shared CLIP assets are recreated by the model downloader
+/backend/model_assets/GenD/
+
+

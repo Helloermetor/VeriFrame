@@ -1,0 +1,1033 @@
+{
+    "openapi":  "3.1.0",
+    "info":  {
+                 "title":  "VeriFrame API",
+                 "version":  "0.1.0"
+             },
+    "paths":  {
+                  "/api/v1/model-evaluation/run":  {
+                                                       "post":  {
+                                                                    "tags":  [
+                                                                                 "Model Evaluation"
+                                                                             ],
+                                                                    "summary":  "Start Model Evaluation",
+                                                                    "operationId":  "start_model_evaluation_api_v1_model_evaluation_run_post",
+                                                                    "requestBody":  {
+                                                                                        "content":  {
+                                                                                                        "application/json":  {
+                                                                                                                                 "schema":  {
+                                                                                                                                                "$ref":  "#/components/schemas/EvaluationRequest"
+                                                                                                                                            }
+                                                                                                                             }
+                                                                                                    },
+                                                                                        "required":  true
+                                                                                    },
+                                                                    "responses":  {
+                                                                                      "202":  {
+                                                                                                  "description":  "Successful Response",
+                                                                                                  "content":  {
+                                                                                                                  "application/json":  {
+                                                                                                                                           "schema":  {
+
+                                                                                                                                                      }
+                                                                                                                                       }
+                                                                                                              }
+                                                                                              },
+                                                                                      "422":  {
+                                                                                                  "description":  "Validation Error",
+                                                                                                  "content":  {
+                                                                                                                  "application/json":  {
+                                                                                                                                           "schema":  {
+                                                                                                                                                          "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                      }
+                                                                                                                                       }
+                                                                                                              }
+                                                                                              }
+                                                                                  }
+                                                                }
+                                                   },
+                  "/api/v1/model-evaluation":  {
+                                                   "get":  {
+                                                               "tags":  [
+                                                                            "Model Evaluation"
+                                                                        ],
+                                                               "summary":  "Get Latest Model Evaluation",
+                                                               "operationId":  "get_latest_model_evaluation_api_v1_model_evaluation_get",
+                                                               "responses":  {
+                                                                                 "200":  {
+                                                                                             "description":  "Successful Response",
+                                                                                             "content":  {
+                                                                                                             "application/json":  {
+                                                                                                                                      "schema":  {
+
+                                                                                                                                                 }
+                                                                                                                                  }
+                                                                                                         }
+                                                                                         }
+                                                                             }
+                                                           }
+                                               },
+                  "/api/v1/model-evaluation/history":  {
+                                                           "get":  {
+                                                                       "tags":  [
+                                                                                    "Model Evaluation"
+                                                                                ],
+                                                                       "summary":  "Get Model Evaluation History",
+                                                                       "operationId":  "get_model_evaluation_history_api_v1_model_evaluation_history_get",
+                                                                       "responses":  {
+                                                                                         "200":  {
+                                                                                                     "description":  "Successful Response",
+                                                                                                     "content":  {
+                                                                                                                     "application/json":  {
+                                                                                                                                              "schema":  {
+
+                                                                                                                                                         }
+                                                                                                                                          }
+                                                                                                                 }
+                                                                                                 }
+                                                                                     }
+                                                                   }
+                                                       },
+                  "/api/v1/model-evaluation/{evaluation_id}/curves":  {
+                                                                          "get":  {
+                                                                                      "tags":  [
+                                                                                                   "Model Evaluation"
+                                                                                               ],
+                                                                                      "summary":  "Get Model Evaluation Curves",
+                                                                                      "description":  "Return frame-level and video-folder-level ROC and\nPrecision-Recall curve data for a completed evaluation.",
+                                                                                      "operationId":  "get_model_evaluation_curves_api_v1_model_evaluation__evaluation_id__curves_get",
+                                                                                      "parameters":  [
+                                                                                                         {
+                                                                                                             "name":  "evaluation_id",
+                                                                                                             "in":  "path",
+                                                                                                             "required":  true,
+                                                                                                             "schema":  {
+                                                                                                                            "type":  "string",
+                                                                                                                            "title":  "Evaluation Id"
+                                                                                                                        }
+                                                                                                         }
+                                                                                                     ],
+                                                                                      "responses":  {
+                                                                                                        "200":  {
+                                                                                                                    "description":  "Successful Response",
+                                                                                                                    "content":  {
+                                                                                                                                    "application/json":  {
+                                                                                                                                                             "schema":  {
+
+                                                                                                                                                                        }
+                                                                                                                                                         }
+                                                                                                                                }
+                                                                                                                },
+                                                                                                        "422":  {
+                                                                                                                    "description":  "Validation Error",
+                                                                                                                    "content":  {
+                                                                                                                                    "application/json":  {
+                                                                                                                                                             "schema":  {
+                                                                                                                                                                            "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                                        }
+                                                                                                                                                         }
+                                                                                                                                }
+                                                                                                                }
+                                                                                                    }
+                                                                                  }
+                                                                      },
+                  "/api/v1/model-evaluation/compare":  {
+                                                           "get":  {
+                                                                       "tags":  [
+                                                                                    "Model Evaluation"
+                                                                                ],
+                                                                       "summary":  "Compare Model Evaluations",
+                                                                       "description":  "Compare two completed model evaluation runs.\nMetric differences are calculated as second evaluation minus first.",
+                                                                       "operationId":  "compare_model_evaluations_api_v1_model_evaluation_compare_get",
+                                                                       "parameters":  [
+                                                                                          {
+                                                                                              "name":  "first_id",
+                                                                                              "in":  "query",
+                                                                                              "required":  true,
+                                                                                              "schema":  {
+                                                                                                             "type":  "string",
+                                                                                                             "title":  "First Id"
+                                                                                                         }
+                                                                                          },
+                                                                                          {
+                                                                                              "name":  "second_id",
+                                                                                              "in":  "query",
+                                                                                              "required":  true,
+                                                                                              "schema":  {
+                                                                                                             "type":  "string",
+                                                                                                             "title":  "Second Id"
+                                                                                                         }
+                                                                                          }
+                                                                                      ],
+                                                                       "responses":  {
+                                                                                         "200":  {
+                                                                                                     "description":  "Successful Response",
+                                                                                                     "content":  {
+                                                                                                                     "application/json":  {
+                                                                                                                                              "schema":  {
+
+                                                                                                                                                         }
+                                                                                                                                          }
+                                                                                                                 }
+                                                                                                 },
+                                                                                         "422":  {
+                                                                                                     "description":  "Validation Error",
+                                                                                                     "content":  {
+                                                                                                                     "application/json":  {
+                                                                                                                                              "schema":  {
+                                                                                                                                                             "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                         }
+                                                                                                                                          }
+                                                                                                                 }
+                                                                                                 }
+                                                                                     }
+                                                                   }
+                                                       },
+                  "/api/v1/model-evaluation/compare/report":  {
+                                                                  "get":  {
+                                                                              "tags":  [
+                                                                                           "Model Evaluation"
+                                                                                       ],
+                                                                              "summary":  "Download Comparison Report",
+                                                                              "description":  "Generate a PDF comparing two completed evaluation runs.",
+                                                                              "operationId":  "download_comparison_report_api_v1_model_evaluation_compare_report_get",
+                                                                              "parameters":  [
+                                                                                                 {
+                                                                                                     "name":  "first_id",
+                                                                                                     "in":  "query",
+                                                                                                     "required":  true,
+                                                                                                     "schema":  {
+                                                                                                                    "type":  "string",
+                                                                                                                    "title":  "First Id"
+                                                                                                                }
+                                                                                                 },
+                                                                                                 {
+                                                                                                     "name":  "second_id",
+                                                                                                     "in":  "query",
+                                                                                                     "required":  true,
+                                                                                                     "schema":  {
+                                                                                                                    "type":  "string",
+                                                                                                                    "title":  "Second Id"
+                                                                                                                }
+                                                                                                 }
+                                                                                             ],
+                                                                              "responses":  {
+                                                                                                "200":  {
+                                                                                                            "description":  "Successful Response",
+                                                                                                            "content":  {
+                                                                                                                            "application/json":  {
+                                                                                                                                                     "schema":  {
+
+                                                                                                                                                                }
+                                                                                                                                                 }
+                                                                                                                        }
+                                                                                                        },
+                                                                                                "422":  {
+                                                                                                            "description":  "Validation Error",
+                                                                                                            "content":  {
+                                                                                                                            "application/json":  {
+                                                                                                                                                     "schema":  {
+                                                                                                                                                                    "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                                }
+                                                                                                                                                 }
+                                                                                                                        }
+                                                                                                        }
+                                                                                            }
+                                                                          }
+                                                              },
+                  "/api/v1/model-evaluation/{evaluation_id}/report":  {
+                                                                          "get":  {
+                                                                                      "tags":  [
+                                                                                                   "Model Evaluation"
+                                                                                               ],
+                                                                                      "summary":  "Download Evaluation Report",
+                                                                                      "description":  "Generate a PDF for one completed model evaluation.",
+                                                                                      "operationId":  "download_evaluation_report_api_v1_model_evaluation__evaluation_id__report_get",
+                                                                                      "parameters":  [
+                                                                                                         {
+                                                                                                             "name":  "evaluation_id",
+                                                                                                             "in":  "path",
+                                                                                                             "required":  true,
+                                                                                                             "schema":  {
+                                                                                                                            "type":  "string",
+                                                                                                                            "title":  "Evaluation Id"
+                                                                                                                        }
+                                                                                                         }
+                                                                                                     ],
+                                                                                      "responses":  {
+                                                                                                        "200":  {
+                                                                                                                    "description":  "Successful Response",
+                                                                                                                    "content":  {
+                                                                                                                                    "application/json":  {
+                                                                                                                                                             "schema":  {
+
+                                                                                                                                                                        }
+                                                                                                                                                         }
+                                                                                                                                }
+                                                                                                                },
+                                                                                                        "422":  {
+                                                                                                                    "description":  "Validation Error",
+                                                                                                                    "content":  {
+                                                                                                                                    "application/json":  {
+                                                                                                                                                             "schema":  {
+                                                                                                                                                                            "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                                        }
+                                                                                                                                                         }
+                                                                                                                                }
+                                                                                                                }
+                                                                                                    }
+                                                                                  }
+                                                                      },
+                  "/api/v1/model-evaluation/{evaluation_id}":  {
+                                                                   "get":  {
+                                                                               "tags":  [
+                                                                                            "Model Evaluation"
+                                                                                        ],
+                                                                               "summary":  "Get Model Evaluation",
+                                                                               "operationId":  "get_model_evaluation_api_v1_model_evaluation__evaluation_id__get",
+                                                                               "parameters":  [
+                                                                                                  {
+                                                                                                      "name":  "evaluation_id",
+                                                                                                      "in":  "path",
+                                                                                                      "required":  true,
+                                                                                                      "schema":  {
+                                                                                                                     "type":  "string",
+                                                                                                                     "title":  "Evaluation Id"
+                                                                                                                 }
+                                                                                                  }
+                                                                                              ],
+                                                                               "responses":  {
+                                                                                                 "200":  {
+                                                                                                             "description":  "Successful Response",
+                                                                                                             "content":  {
+                                                                                                                             "application/json":  {
+                                                                                                                                                      "schema":  {
+
+                                                                                                                                                                 }
+                                                                                                                                                  }
+                                                                                                                         }
+                                                                                                         },
+                                                                                                 "422":  {
+                                                                                                             "description":  "Validation Error",
+                                                                                                             "content":  {
+                                                                                                                             "application/json":  {
+                                                                                                                                                      "schema":  {
+                                                                                                                                                                     "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                                 }
+                                                                                                                                                  }
+                                                                                                                         }
+                                                                                                         }
+                                                                                             }
+                                                                           }
+                                                               },
+                  "/api/v1/health":  {
+                                         "get":  {
+                                                     "summary":  "Health",
+                                                     "operationId":  "health_api_v1_health_get",
+                                                     "responses":  {
+                                                                       "200":  {
+                                                                                   "description":  "Successful Response",
+                                                                                   "content":  {
+                                                                                                   "application/json":  {
+                                                                                                                            "schema":  {
+
+                                                                                                                                       }
+                                                                                                                        }
+                                                                                               }
+                                                                               }
+                                                                   }
+                                                 }
+                                     },
+                  "/api/v1/models":  {
+                                         "get":  {
+                                                     "summary":  "Models",
+                                                     "operationId":  "models_api_v1_models_get",
+                                                     "responses":  {
+                                                                       "200":  {
+                                                                                   "description":  "Successful Response",
+                                                                                   "content":  {
+                                                                                                   "application/json":  {
+                                                                                                                            "schema":  {
+
+                                                                                                                                       }
+                                                                                                                        }
+                                                                                               }
+                                                                               }
+                                                                   }
+                                                 }
+                                     },
+                  "/api/v1/analyses":  {
+                                           "get":  {
+                                                       "summary":  "List Analyses",
+                                                       "operationId":  "list_analyses_api_v1_analyses_get",
+                                                       "responses":  {
+                                                                         "200":  {
+                                                                                     "description":  "Successful Response",
+                                                                                     "content":  {
+                                                                                                     "application/json":  {
+                                                                                                                              "schema":  {
+
+                                                                                                                                         }
+                                                                                                                          }
+                                                                                                 }
+                                                                                 }
+                                                                     }
+                                                   },
+                                           "post":  {
+                                                        "summary":  "Create Analysis",
+                                                        "operationId":  "create_analysis_api_v1_analyses_post",
+                                                        "requestBody":  {
+                                                                            "content":  {
+                                                                                            "multipart/form-data":  {
+                                                                                                                        "schema":  {
+                                                                                                                                       "$ref":  "#/components/schemas/Body_create_analysis_api_v1_analyses_post"
+                                                                                                                                   }
+                                                                                                                    }
+                                                                                        },
+                                                                            "required":  true
+                                                                        },
+                                                        "responses":  {
+                                                                          "202":  {
+                                                                                      "description":  "Successful Response",
+                                                                                      "content":  {
+                                                                                                      "application/json":  {
+                                                                                                                               "schema":  {
+
+                                                                                                                                          }
+                                                                                                                           }
+                                                                                                  }
+                                                                                  },
+                                                                          "422":  {
+                                                                                      "description":  "Validation Error",
+                                                                                      "content":  {
+                                                                                                      "application/json":  {
+                                                                                                                               "schema":  {
+                                                                                                                                              "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                          }
+                                                                                                                           }
+                                                                                                  }
+                                                                                  }
+                                                                      }
+                                                    }
+                                       },
+                  "/api/v1/analyses/{analysis_id}":  {
+                                                         "get":  {
+                                                                     "summary":  "Get Analysis",
+                                                                     "operationId":  "get_analysis_api_v1_analyses__analysis_id__get",
+                                                                     "parameters":  [
+                                                                                        {
+                                                                                            "name":  "analysis_id",
+                                                                                            "in":  "path",
+                                                                                            "required":  true,
+                                                                                            "schema":  {
+                                                                                                           "type":  "string",
+                                                                                                           "title":  "Analysis Id"
+                                                                                                       }
+                                                                                        }
+                                                                                    ],
+                                                                     "responses":  {
+                                                                                       "200":  {
+                                                                                                   "description":  "Successful Response",
+                                                                                                   "content":  {
+                                                                                                                   "application/json":  {
+                                                                                                                                            "schema":  {
+
+                                                                                                                                                       }
+                                                                                                                                        }
+                                                                                                               }
+                                                                                               },
+                                                                                       "422":  {
+                                                                                                   "description":  "Validation Error",
+                                                                                                   "content":  {
+                                                                                                                   "application/json":  {
+                                                                                                                                            "schema":  {
+                                                                                                                                                           "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                       }
+                                                                                                                                        }
+                                                                                                               }
+                                                                                               }
+                                                                                   }
+                                                                 },
+                                                         "delete":  {
+                                                                        "summary":  "Delete Analysis",
+                                                                        "operationId":  "delete_analysis_api_v1_analyses__analysis_id__delete",
+                                                                        "parameters":  [
+                                                                                           {
+                                                                                               "name":  "analysis_id",
+                                                                                               "in":  "path",
+                                                                                               "required":  true,
+                                                                                               "schema":  {
+                                                                                                              "type":  "string",
+                                                                                                              "title":  "Analysis Id"
+                                                                                                          }
+                                                                                           }
+                                                                                       ],
+                                                                        "responses":  {
+                                                                                          "204":  {
+                                                                                                      "description":  "Successful Response"
+                                                                                                  },
+                                                                                          "422":  {
+                                                                                                      "description":  "Validation Error",
+                                                                                                      "content":  {
+                                                                                                                      "application/json":  {
+                                                                                                                                               "schema":  {
+                                                                                                                                                              "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                          }
+                                                                                                                                           }
+                                                                                                                  }
+                                                                                                  }
+                                                                                      }
+                                                                    }
+                                                     },
+                  "/api/v1/analyses/{analysis_id}/events":  {
+                                                                "get":  {
+                                                                            "summary":  "Events",
+                                                                            "operationId":  "events_api_v1_analyses__analysis_id__events_get",
+                                                                            "parameters":  [
+                                                                                               {
+                                                                                                   "name":  "analysis_id",
+                                                                                                   "in":  "path",
+                                                                                                   "required":  true,
+                                                                                                   "schema":  {
+                                                                                                                  "type":  "string",
+                                                                                                                  "title":  "Analysis Id"
+                                                                                                              }
+                                                                                               }
+                                                                                           ],
+                                                                            "responses":  {
+                                                                                              "200":  {
+                                                                                                          "description":  "Successful Response",
+                                                                                                          "content":  {
+                                                                                                                          "application/json":  {
+                                                                                                                                                   "schema":  {
+
+                                                                                                                                                              }
+                                                                                                                                               }
+                                                                                                                      }
+                                                                                                      },
+                                                                                              "422":  {
+                                                                                                          "description":  "Validation Error",
+                                                                                                          "content":  {
+                                                                                                                          "application/json":  {
+                                                                                                                                                   "schema":  {
+                                                                                                                                                                  "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                              }
+                                                                                                                                               }
+                                                                                                                      }
+                                                                                                      }
+                                                                                          }
+                                                                        }
+                                                            },
+                  "/api/v1/analyses/{analysis_id}/frames":  {
+                                                                "get":  {
+                                                                            "summary":  "Frames",
+                                                                            "operationId":  "frames_api_v1_analyses__analysis_id__frames_get",
+                                                                            "parameters":  [
+                                                                                               {
+                                                                                                   "name":  "analysis_id",
+                                                                                                   "in":  "path",
+                                                                                                   "required":  true,
+                                                                                                   "schema":  {
+                                                                                                                  "type":  "string",
+                                                                                                                  "title":  "Analysis Id"
+                                                                                                              }
+                                                                                               }
+                                                                                           ],
+                                                                            "responses":  {
+                                                                                              "200":  {
+                                                                                                          "description":  "Successful Response",
+                                                                                                          "content":  {
+                                                                                                                          "application/json":  {
+                                                                                                                                                   "schema":  {
+
+                                                                                                                                                              }
+                                                                                                                                               }
+                                                                                                                      }
+                                                                                                      },
+                                                                                              "422":  {
+                                                                                                          "description":  "Validation Error",
+                                                                                                          "content":  {
+                                                                                                                          "application/json":  {
+                                                                                                                                                   "schema":  {
+                                                                                                                                                                  "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                              }
+                                                                                                                                               }
+                                                                                                                      }
+                                                                                                      }
+                                                                                          }
+                                                                        }
+                                                            },
+                  "/api/v1/analyses/{analysis_id}/evidence":  {
+                                                                  "get":  {
+                                                                              "summary":  "Evidence",
+                                                                              "operationId":  "evidence_api_v1_analyses__analysis_id__evidence_get",
+                                                                              "parameters":  [
+                                                                                                 {
+                                                                                                     "name":  "analysis_id",
+                                                                                                     "in":  "path",
+                                                                                                     "required":  true,
+                                                                                                     "schema":  {
+                                                                                                                    "type":  "string",
+                                                                                                                    "title":  "Analysis Id"
+                                                                                                                }
+                                                                                                 }
+                                                                                             ],
+                                                                              "responses":  {
+                                                                                                "200":  {
+                                                                                                            "description":  "Successful Response",
+                                                                                                            "content":  {
+                                                                                                                            "application/json":  {
+                                                                                                                                                     "schema":  {
+
+                                                                                                                                                                }
+                                                                                                                                                 }
+                                                                                                                        }
+                                                                                                        },
+                                                                                                "422":  {
+                                                                                                            "description":  "Validation Error",
+                                                                                                            "content":  {
+                                                                                                                            "application/json":  {
+                                                                                                                                                     "schema":  {
+                                                                                                                                                                    "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                                }
+                                                                                                                                                 }
+                                                                                                                        }
+                                                                                                        }
+                                                                                            }
+                                                                          }
+                                                              },
+                  "/api/v1/analyses/{analysis_id}/stability":  {
+                                                                   "get":  {
+                                                                               "summary":  "Stability",
+                                                                               "operationId":  "stability_api_v1_analyses__analysis_id__stability_get",
+                                                                               "parameters":  [
+                                                                                                  {
+                                                                                                      "name":  "analysis_id",
+                                                                                                      "in":  "path",
+                                                                                                      "required":  true,
+                                                                                                      "schema":  {
+                                                                                                                     "type":  "string",
+                                                                                                                     "title":  "Analysis Id"
+                                                                                                                 }
+                                                                                                  }
+                                                                                              ],
+                                                                               "responses":  {
+                                                                                                 "200":  {
+                                                                                                             "description":  "Successful Response",
+                                                                                                             "content":  {
+                                                                                                                             "application/json":  {
+                                                                                                                                                      "schema":  {
+
+                                                                                                                                                                 }
+                                                                                                                                                  }
+                                                                                                                         }
+                                                                                                         },
+                                                                                                 "422":  {
+                                                                                                             "description":  "Validation Error",
+                                                                                                             "content":  {
+                                                                                                                             "application/json":  {
+                                                                                                                                                      "schema":  {
+                                                                                                                                                                     "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                                 }
+                                                                                                                                                  }
+                                                                                                                         }
+                                                                                                         }
+                                                                                             }
+                                                                           },
+                                                                   "post":  {
+                                                                                "summary":  "Run Stability Check",
+                                                                                "operationId":  "run_stability_check_api_v1_analyses__analysis_id__stability_post",
+                                                                                "parameters":  [
+                                                                                                   {
+                                                                                                       "name":  "analysis_id",
+                                                                                                       "in":  "path",
+                                                                                                       "required":  true,
+                                                                                                       "schema":  {
+                                                                                                                      "type":  "string",
+                                                                                                                      "title":  "Analysis Id"
+                                                                                                                  }
+                                                                                                   }
+                                                                                               ],
+                                                                                "responses":  {
+                                                                                                  "200":  {
+                                                                                                              "description":  "Successful Response",
+                                                                                                              "content":  {
+                                                                                                                              "application/json":  {
+                                                                                                                                                       "schema":  {
+
+                                                                                                                                                                  }
+                                                                                                                                                   }
+                                                                                                                          }
+                                                                                                          },
+                                                                                                  "422":  {
+                                                                                                              "description":  "Validation Error",
+                                                                                                              "content":  {
+                                                                                                                              "application/json":  {
+                                                                                                                                                       "schema":  {
+                                                                                                                                                                      "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                                  }
+                                                                                                                                                   }
+                                                                                                                          }
+                                                                                                          }
+                                                                                              }
+                                                                            }
+                                                               },
+                  "/api/v1/analyses/{analysis_id}/provenance":  {
+                                                                    "get":  {
+                                                                                "summary":  "Provenance",
+                                                                                "operationId":  "provenance_api_v1_analyses__analysis_id__provenance_get",
+                                                                                "parameters":  [
+                                                                                                   {
+                                                                                                       "name":  "analysis_id",
+                                                                                                       "in":  "path",
+                                                                                                       "required":  true,
+                                                                                                       "schema":  {
+                                                                                                                      "type":  "string",
+                                                                                                                      "title":  "Analysis Id"
+                                                                                                                  }
+                                                                                                   }
+                                                                                               ],
+                                                                                "responses":  {
+                                                                                                  "200":  {
+                                                                                                              "description":  "Successful Response",
+                                                                                                              "content":  {
+                                                                                                                              "application/json":  {
+                                                                                                                                                       "schema":  {
+
+                                                                                                                                                                  }
+                                                                                                                                                   }
+                                                                                                                          }
+                                                                                                          },
+                                                                                                  "422":  {
+                                                                                                              "description":  "Validation Error",
+                                                                                                              "content":  {
+                                                                                                                              "application/json":  {
+                                                                                                                                                       "schema":  {
+                                                                                                                                                                      "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                                  }
+                                                                                                                                                   }
+                                                                                                                          }
+                                                                                                          }
+                                                                                              }
+                                                                            }
+                                                                },
+                  "/api/v1/analyses/{analysis_id}/report":  {
+                                                                "get":  {
+                                                                            "summary":  "Report",
+                                                                            "operationId":  "report_api_v1_analyses__analysis_id__report_get",
+                                                                            "parameters":  [
+                                                                                               {
+                                                                                                   "name":  "analysis_id",
+                                                                                                   "in":  "path",
+                                                                                                   "required":  true,
+                                                                                                   "schema":  {
+                                                                                                                  "type":  "string",
+                                                                                                                  "title":  "Analysis Id"
+                                                                                                              }
+                                                                                               }
+                                                                                           ],
+                                                                            "responses":  {
+                                                                                              "200":  {
+                                                                                                          "description":  "Successful Response",
+                                                                                                          "content":  {
+                                                                                                                          "application/json":  {
+                                                                                                                                                   "schema":  {
+
+                                                                                                                                                              }
+                                                                                                                                               }
+                                                                                                                      }
+                                                                                                      },
+                                                                                              "422":  {
+                                                                                                          "description":  "Validation Error",
+                                                                                                          "content":  {
+                                                                                                                          "application/json":  {
+                                                                                                                                                   "schema":  {
+                                                                                                                                                                  "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                              }
+                                                                                                                                               }
+                                                                                                                      }
+                                                                                                      }
+                                                                                          }
+                                                                        }
+                                                            },
+                  "/api/v1/analyses/{analysis_id}/evidence-package":  {
+                                                                          "get":  {
+                                                                                      "summary":  "Download Evidence Package",
+                                                                                      "operationId":  "download_evidence_package_api_v1_analyses__analysis_id__evidence_package_get",
+                                                                                      "parameters":  [
+                                                                                                         {
+                                                                                                             "name":  "analysis_id",
+                                                                                                             "in":  "path",
+                                                                                                             "required":  true,
+                                                                                                             "schema":  {
+                                                                                                                            "type":  "string",
+                                                                                                                            "title":  "Analysis Id"
+                                                                                                                        }
+                                                                                                         }
+                                                                                                     ],
+                                                                                      "responses":  {
+                                                                                                        "200":  {
+                                                                                                                    "description":  "Successful Response",
+                                                                                                                    "content":  {
+                                                                                                                                    "application/json":  {
+                                                                                                                                                             "schema":  {
+
+                                                                                                                                                                        }
+                                                                                                                                                         }
+                                                                                                                                }
+                                                                                                                },
+                                                                                                        "422":  {
+                                                                                                                    "description":  "Validation Error",
+                                                                                                                    "content":  {
+                                                                                                                                    "application/json":  {
+                                                                                                                                                             "schema":  {
+                                                                                                                                                                            "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                                        }
+                                                                                                                                                         }
+                                                                                                                                }
+                                                                                                                }
+                                                                                                    }
+                                                                                  }
+                                                                      },
+                  "/api/v1/evidence/verify":  {
+                                                  "post":  {
+                                                               "summary":  "Verify Uploaded Evidence Package",
+                                                               "operationId":  "verify_uploaded_evidence_package_api_v1_evidence_verify_post",
+                                                               "requestBody":  {
+                                                                                   "content":  {
+                                                                                                   "multipart/form-data":  {
+                                                                                                                               "schema":  {
+                                                                                                                                              "$ref":  "#/components/schemas/Body_verify_uploaded_evidence_package_api_v1_evidence_verify_post"
+                                                                                                                                          }
+                                                                                                                           }
+                                                                                               },
+                                                                                   "required":  true
+                                                                               },
+                                                               "responses":  {
+                                                                                 "200":  {
+                                                                                             "description":  "Successful Response",
+                                                                                             "content":  {
+                                                                                                             "application/json":  {
+                                                                                                                                      "schema":  {
+
+                                                                                                                                                 }
+                                                                                                                                  }
+                                                                                                         }
+                                                                                         },
+                                                                                 "422":  {
+                                                                                             "description":  "Validation Error",
+                                                                                             "content":  {
+                                                                                                             "application/json":  {
+                                                                                                                                      "schema":  {
+                                                                                                                                                     "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                 }
+                                                                                                                                  }
+                                                                                                         }
+                                                                                         }
+                                                                             }
+                                                           }
+                                              },
+                  "/api/v1/analyses/{analysis_id}/thumbnail":  {
+                                                                   "get":  {
+                                                                               "summary":  "Analysis Thumbnail",
+                                                                               "operationId":  "analysis_thumbnail_api_v1_analyses__analysis_id__thumbnail_get",
+                                                                               "parameters":  [
+                                                                                                  {
+                                                                                                      "name":  "analysis_id",
+                                                                                                      "in":  "path",
+                                                                                                      "required":  true,
+                                                                                                      "schema":  {
+                                                                                                                     "type":  "string",
+                                                                                                                     "title":  "Analysis Id"
+                                                                                                                 }
+                                                                                                  },
+                                                                                                  {
+                                                                                                      "name":  "timestamp",
+                                                                                                      "in":  "query",
+                                                                                                      "required":  true,
+                                                                                                      "schema":  {
+                                                                                                                     "type":  "number",
+                                                                                                                     "title":  "Timestamp"
+                                                                                                                 }
+                                                                                                  }
+                                                                                              ],
+                                                                               "responses":  {
+                                                                                                 "200":  {
+                                                                                                             "description":  "Successful Response",
+                                                                                                             "content":  {
+                                                                                                                             "application/json":  {
+                                                                                                                                                      "schema":  {
+
+                                                                                                                                                                 }
+                                                                                                                                                  }
+                                                                                                                         }
+                                                                                                         },
+                                                                                                 "422":  {
+                                                                                                             "description":  "Validation Error",
+                                                                                                             "content":  {
+                                                                                                                             "application/json":  {
+                                                                                                                                                      "schema":  {
+                                                                                                                                                                     "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                                 }
+                                                                                                                                                  }
+                                                                                                                         }
+                                                                                                         }
+                                                                                             }
+                                                                           }
+                                                               },
+                  "/api/v1/verify/{report_id}":  {
+                                                     "get":  {
+                                                                 "summary":  "Verify Report",
+                                                                 "operationId":  "verify_report_api_v1_verify__report_id__get",
+                                                                 "parameters":  [
+                                                                                    {
+                                                                                        "name":  "report_id",
+                                                                                        "in":  "path",
+                                                                                        "required":  true,
+                                                                                        "schema":  {
+                                                                                                       "type":  "string",
+                                                                                                       "title":  "Report Id"
+                                                                                                   }
+                                                                                    }
+                                                                                ],
+                                                                 "responses":  {
+                                                                                   "200":  {
+                                                                                               "description":  "Successful Response",
+                                                                                               "content":  {
+                                                                                                               "application/json":  {
+                                                                                                                                        "schema":  {
+
+                                                                                                                                                   }
+                                                                                                                                    }
+                                                                                                           }
+                                                                                           },
+                                                                                   "422":  {
+                                                                                               "description":  "Validation Error",
+                                                                                               "content":  {
+                                                                                                               "application/json":  {
+                                                                                                                                        "schema":  {
+                                                                                                                                                       "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                   }
+                                                                                                                                    }
+                                                                                                           }
+                                                                                           }
+                                                                               }
+                                                             }
+                                                 }
+              },
+    "components":  {
+                       "schemas":  {
+                                       "Body_create_analysis_api_v1_analyses_post":  {
+                                                                                         "properties":  {
+                                                                                                            "video":  {
+                                                                                                                          "type":  "string",
+                                                                                                                          "contentMediaType":  "application/octet-stream",
+                                                                                                                          "title":  "Video"
+                                                                                                                      },
+                                                                                                            "consent":  {
+                                                                                                                            "type":  "boolean",
+                                                                                                                            "title":  "Consent",
+                                                                                                                            "default":  false
+                                                                                                                        }
+                                                                                                        },
+                                                                                         "type":  "object",
+                                                                                         "required":  [
+                                                                                                          "video"
+                                                                                                      ],
+                                                                                         "title":  "Body_create_analysis_api_v1_analyses_post"
+                                                                                     },
+                                       "Body_verify_uploaded_evidence_package_api_v1_evidence_verify_post":  {
+                                                                                                                 "properties":  {
+                                                                                                                                    "package":  {
+                                                                                                                                                    "type":  "string",
+                                                                                                                                                    "contentMediaType":  "application/octet-stream",
+                                                                                                                                                    "title":  "Package"
+                                                                                                                                                }
+                                                                                                                                },
+                                                                                                                 "type":  "object",
+                                                                                                                 "required":  [
+                                                                                                                                  "package"
+                                                                                                                              ],
+                                                                                                                 "title":  "Body_verify_uploaded_evidence_package_api_v1_evidence_verify_post"
+                                                                                                             },
+                                       "EvaluationRequest":  {
+                                                                 "properties":  {
+                                                                                    "split":  {
+                                                                                                  "type":  "string",
+                                                                                                  "title":  "Split",
+                                                                                                  "default":  "test"
+                                                                                              },
+                                                                                    "batch_size":  {
+                                                                                                       "type":  "integer",
+                                                                                                       "maximum":  256.0,
+                                                                                                       "minimum":  1.0,
+                                                                                                       "title":  "Batch Size",
+                                                                                                       "default":  32
+                                                                                                   },
+                                                                                    "threshold":  {
+                                                                                                      "type":  "number",
+                                                                                                      "maximum":  1.0,
+                                                                                                      "minimum":  0.0,
+                                                                                                      "title":  "Threshold",
+                                                                                                      "default":  0.5
+                                                                                                  }
+                                                                                },
+                                                                 "type":  "object",
+                                                                 "title":  "EvaluationRequest"
+                                                             },
+                                       "HTTPValidationError":  {
+                                                                   "properties":  {
+                                                                                      "detail":  {
+                                                                                                     "items":  {
+                                                                                                                   "$ref":  "#/components/schemas/ValidationError"
+                                                                                                               },
+                                                                                                     "type":  "array",
+                                                                                                     "title":  "Detail"
+                                                                                                 }
+                                                                                  },
+                                                                   "type":  "object",
+                                                                   "title":  "HTTPValidationError"
+                                                               },
+                                       "ValidationError":  {
+                                                               "properties":  {
+                                                                                  "loc":  {
+                                                                                              "items":  {
+                                                                                                            "anyOf":  [
+                                                                                                                          {
+                                                                                                                              "type":  "string"
+                                                                                                                          },
+                                                                                                                          {
+                                                                                                                              "type":  "integer"
+                                                                                                                          }
+                                                                                                                      ]
+                                                                                                        },
+                                                                                              "type":  "array",
+                                                                                              "title":  "Location"
+                                                                                          },
+                                                                                  "msg":  {
+                                                                                              "type":  "string",
+                                                                                              "title":  "Message"
+                                                                                          },
+                                                                                  "type":  {
+                                                                                               "type":  "string",
+                                                                                               "title":  "Error Type"
+                                                                                           },
+                                                                                  "input":  {
+                                                                                                "title":  "Input"
+                                                                                            },
+                                                                                  "ctx":  {
+                                                                                              "type":  "object",
+                                                                                              "title":  "Context"
+                                                                                          }
+                                                                              },
+                                                               "type":  "object",
+                                                               "required":  [
+                                                                                "loc",
+                                                                                "msg",
+                                                                                "type"
+                                                                            ],
+                                                               "title":  "ValidationError"
+                                                           }
+                                   }
+                   }
+}

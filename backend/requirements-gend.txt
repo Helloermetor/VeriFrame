@@ -1,0 +1,15 @@
+﻿# VeriFrame GenD inference dependencies
+# Install PyTorch and Torchvision separately with a compatible CUDA build.
+
+transformers==4.56.2
+huggingface-hub==0.36.2
+safetensors==0.8.0
+numpy==2.5.4
+opencv-python==5.0.0.93
+Pillow==13.0.0
+imageio==2.38.1
+av==19.0.2
+tqdm==4.70.1
+onnxruntime-gpu==1.31.1
+
+gdown==5.2.0
