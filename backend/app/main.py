@@ -29,10 +29,10 @@ app = FastAPI(title="VeriFrame API", version="0.1.0")
 app.include_router(model_evaluation_router)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=os.getenv("VERIFRAME_CORS_ORIGINS", "http://localhost:5173").split(
+    allow_origins=os.getenv("VERIFRAME_CORS_ORIGINS", "http://localhost:5173,https://veriframe.tech,https://www.veriframe.tech").split(
         ","
     ),
-    allow_credentials=False,
+    allow_credentials=True,
     allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )

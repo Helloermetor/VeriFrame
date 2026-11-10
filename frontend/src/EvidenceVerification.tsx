@@ -9,6 +9,10 @@ import {
 } from "lucide-react";
 
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+const apiFetch = (
+  input: RequestInfo | URL,
+  init: RequestInit = {},
+) => fetch(input, { ...init, credentials: "include" });
 
 type VerificationResult = {
   status: "VERIFIED" | "TAMPERED" | "INCOMPLETE";
@@ -45,7 +49,7 @@ export default function EvidenceVerification() {
       const body = new FormData();
       body.append("package", file);
 
-      const response = await fetch(`${API}/api/v1/evidence/verify`, {
+      const response = await apiFetch(`${API}/api/v1/evidence/verify`, {
         method: "POST",
         body,
       });

@@ -16,6 +16,10 @@ import {
 } from "lucide-react";
 
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+const apiFetch = (
+  input: RequestInfo | URL,
+  init: RequestInit = {},
+) => fetch(input, { ...init, credentials: "include" });
 
 type Analysis = {
   analysis_id: string;
@@ -48,7 +52,7 @@ type HistoryResponse = {
 const stages = ["validating", "metadata", "sampling", "inference", "completed"];
 
 function formatBytes(n: number) {
-  if (!n) return "—";
+  if (!n) return "â€”";
 
   const units = ["B", "KB", "MB", "GB"];
 
@@ -66,7 +70,7 @@ function formatBytes(n: number) {
 }
 
 function shortHash(hash: string) {
-  return hash ? `${hash.slice(0, 16)}…${hash.slice(-8)}` : "Pending";
+  return hash ? `${hash.slice(0, 16)}â€¦${hash.slice(-8)}` : "Pending";
 }
 
 export default function App() {
@@ -111,7 +115,7 @@ export default function App() {
     setHistoryError("");
 
     try {
-      const res = await fetch(`${API}/api/v1/analyses`);
+      const res = await apiFetch(`${API}/api/v1/analyses`);
 
       if (!res.ok) throw new Error(await res.text());
 
@@ -136,7 +140,7 @@ export default function App() {
   }
 
   async function refresh(id: string) {
-    const res = await fetch(`${API}/api/v1/analyses/${id}`);
+    const res = await apiFetch(`${API}/api/v1/analyses/${id}`);
 
     if (!res.ok) throw new Error(await res.text());
 
@@ -179,7 +183,7 @@ export default function App() {
     if (!saved) return;
 
     try {
-      const res = await fetch(`${API}/api/v1/analyses/${id}`, {
+      const res = await apiFetch(`${API}/api/v1/analyses/${id}`, {
         method: "DELETE",
       });
 
@@ -244,7 +248,7 @@ export default function App() {
 
       body.append("consent", "true");
 
-      const res = await fetch(`${API}/api/v1/analyses`, {
+      const res = await apiFetch(`${API}/api/v1/analyses`, {
         method: "POST",
 
         body,
@@ -273,7 +277,7 @@ export default function App() {
     setError("");
 
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         `${API}/api/v1/analyses/${encodeURIComponent(analysis.analysis_id)}/report`,
         { headers: { Accept: "application/pdf" } },
       );
@@ -306,7 +310,7 @@ export default function App() {
     setError("");
 
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         `${API}/api/v1/analyses/${analysis.analysis_id}/evidence-package`,
       );
 
@@ -338,7 +342,7 @@ export default function App() {
     if (!analysis) return;
 
     try {
-      const res = await fetch(
+      const res = await apiFetch(
         `${API}/api/v1/analyses/${analysis.analysis_id}`,
 
         { method: "DELETE" },
@@ -372,7 +376,7 @@ export default function App() {
     setStabilityError("");
 
     try {
-      const res = await fetch(
+      const res = await apiFetch(
         `${API}/api/v1/analyses/${analysis.analysis_id}/stability`,
 
         { method: "POST" },
@@ -663,14 +667,14 @@ export default function App() {
             disabled={historyLoading}
             style={{ marginBottom: 10 }}
           >
-            {historyLoading ? "Refreshing…" : "Refresh history"}
+            {historyLoading ? "Refreshingâ€¦" : "Refresh history"}
           </button>
 
           <input
             type="search"
             value={historySearch}
             onChange={(event) => setHistorySearch(event.target.value)}
-            placeholder="Search video history…"
+            placeholder="Search video historyâ€¦"
             aria-label="Search previous analyses"
             style={{
               width: "100%",
@@ -770,7 +774,7 @@ export default function App() {
                     className="muted"
                     style={{ display: "block", fontSize: 10, marginTop: 3 }}
                   >
-                    {(item.status || "unknown").toUpperCase()} ·{" "}
+                    {(item.status || "unknown").toUpperCase()} Â·{" "}
                     {formatBytes(item.size_bytes)}
                   </span>
 
@@ -798,7 +802,7 @@ export default function App() {
 
         <div className="sidebar-bottom">
           <div className="secure-dot" /> Private analysis workspace
-          <span className="muted">Starter build · local API</span>
+          <span className="muted">Starter build Â· local API</span>
         </div>
       </aside>
 
@@ -889,8 +893,8 @@ export default function App() {
 
                 <span>
                   {file
-                    ? `${formatBytes(file.size)} · ${file.type || "video file"}`
-                    : "MP4, MOV, WEBM, AVI · maximum 250 MB"}
+                    ? `${formatBytes(file.size)} Â· ${file.type || "video file"}`
+                    : "MP4, MOV, WEBM, AVI Â· maximum 250 MB"}
                 </span>
 
                 {file && (
@@ -922,7 +926,7 @@ export default function App() {
 
               <div className="upload-footer">
                 <span>
-                  <ShieldCheck size={15} /> SHA-256 hashing enabled · local
+                  <ShieldCheck size={15} /> SHA-256 hashing enabled Â· local
                   starter storage
                 </span>
 
@@ -933,7 +937,7 @@ export default function App() {
                 >
                   {busy ? (
                     <>
-                      <LoaderCircle className="spin" size={16} /> Uploading…
+                      <LoaderCircle className="spin" size={16} /> Uploadingâ€¦
                     </>
                   ) : (
                     <>
@@ -965,14 +969,14 @@ export default function App() {
               <div className="analysis-header">
                 <div>
                   <div className="eyebrow">
-                    ANALYSIS ID ·{" "}
+                    ANALYSIS ID Â·{" "}
                     {analysis.analysis_id.slice(0, 8).toUpperCase()}
                   </div>
 
                   <h2>{analysis.filename}</h2>
 
                   <p>
-                    {formatBytes(analysis.size_bytes)} · SHA-256{" "}
+                    {formatBytes(analysis.size_bytes)} Â· SHA-256{" "}
                     {shortHash(analysis.sha256)}
                   </p>
                 </div>
@@ -1053,7 +1057,7 @@ export default function App() {
                         >
                           <span>
                             {stageIndex > i
-                              ? "✓"
+                              ? "âœ“"
                               : String(i + 1).padStart(2, "0")}
                           </span>
 
@@ -1123,7 +1127,7 @@ export default function App() {
 
                       <small>
                         {inferenceReady
-                          ? `GenD: ${gendReady ? gend.sampled_frame_count : "—"} · Xception: ${xceptionReady ? xception.sampled_frame_count : "—"} · Effort: ${effortReady ? effort.sampled_frame_count : "—"} · FakeSTormer: ${fakestormerReady ? fakestormer.sampled_frame_count : "—"} frames`
+                          ? `GenD: ${gendReady ? gend.sampled_frame_count : "â€”"} Â· Xception: ${xceptionReady ? xception.sampled_frame_count : "â€”"} Â· Effort: ${effortReady ? effort.sampled_frame_count : "â€”"} Â· FakeSTormer: ${fakestormerReady ? fakestormer.sampled_frame_count : "â€”"} frames`
                           : "No model score"}
                       </small>
                     </div>
@@ -1188,7 +1192,7 @@ export default function App() {
 
                         <div className="empty-inline">
                           {inferenceReady
-                            ? `GenD: ${gendReady ? "active" : "unavailable"} · Xception: ${xceptionReady ? "active" : "unavailable"} · Effort: ${effortReady ? "active" : "unavailable"} · FakeSTormer: ${fakestormerReady ? "active" : "unavailable"}.`
+                            ? `GenD: ${gendReady ? "active" : "unavailable"} Â· Xception: ${xceptionReady ? "active" : "unavailable"} Â· Effort: ${effortReady ? "active" : "unavailable"} Â· FakeSTormer: ${fakestormerReady ? "active" : "unavailable"}.`
                             : result.committee?.reason ||
                               "Configure the detector inference bridges to enable scoring."}
                         </div>
@@ -1210,7 +1214,7 @@ export default function App() {
 
                           <strong>
                             {inferenceReady
-                              ? `GenD: ${gendScoreText} · Xception: ${xceptionScoreText} · Effort: ${effortScoreText} (uncalibrated)`
+                              ? `GenD: ${gendScoreText} Â· Xception: ${xceptionScoreText} Â· Effort: ${effortScoreText} (uncalibrated)`
                               : "Not available"}
                           </strong>
                         </div>
@@ -1231,7 +1235,7 @@ export default function App() {
                           <span>Sampled frame timeline</span>
                           <strong>
                             {inferenceReady
-                              ? `GenD: ${gendReady ? gend.sampled_frame_count : "—"} · Xception: ${xceptionReady ? xception.sampled_frame_count : "—"} · Effort: ${effortReady ? effort.sampled_frame_count : "—"} · FakeSTormer: ${fakestormerReady ? fakestormer.sampled_frame_count : "—"}`
+                              ? `GenD: ${gendReady ? gend.sampled_frame_count : "â€”"} Â· Xception: ${xceptionReady ? xception.sampled_frame_count : "â€”"} Â· Effort: ${effortReady ? effort.sampled_frame_count : "â€”"} Â· FakeSTormer: ${fakestormerReady ? fakestormer.sampled_frame_count : "â€”"}`
                               : "Not generated"}
                           </strong>
                         </div>
@@ -1249,7 +1253,7 @@ export default function App() {
                                         4,
                                       )
                                     : "Unavailable"
-                                } · Label: ${fakestormer.official_label || "Unavailable"} · Threshold: ${
+                                } Â· Label: ${fakestormer.official_label || "Unavailable"} Â· Threshold: ${
                                   typeof fakestormer.threshold === "number"
                                     ? fakestormer.threshold.toFixed(2)
                                     : "Unavailable"
@@ -1322,7 +1326,7 @@ export default function App() {
                               }
                             }}
                           >
-                            View frame in timeline →
+                            View frame in timeline â†’
                           </button>
 
                           <div className="highest-frame-score">
@@ -1330,7 +1334,7 @@ export default function App() {
                               highestScoringFrame.class1_manipulated_score,
                             ).toFixed(4)}
                             <span>
-                              {frameModelLabel} · Uncalibrated manipulated score
+                              {frameModelLabel} Â· Uncalibrated manipulated score
                             </span>
                           </div>
                         </div>
@@ -1403,7 +1407,7 @@ export default function App() {
                                         }
                                       }}
                                     >
-                                      View in timeline →
+                                      View in timeline â†’
                                     </button>
                                   </div>
                                 ),
@@ -1443,7 +1447,7 @@ export default function App() {
                                   key={`a-${frame.frame_index}`}
                                   value={String(frame.frame_index)}
                                 >
-                                  Frame {frame.frame_index} —{" "}
+                                  Frame {frame.frame_index} â€”{" "}
                                   {Number(frame.timestamp_seconds).toFixed(2)}s
                                 </option>
                               ))}
@@ -1462,7 +1466,7 @@ export default function App() {
                                   key={`b-${frame.frame_index}`}
                                   value={String(frame.frame_index)}
                                 >
-                                  Frame {frame.frame_index} —{" "}
+                                  Frame {frame.frame_index} â€”{" "}
                                   {Number(frame.timestamp_seconds).toFixed(2)}s
                                 </option>
                               ))}
@@ -1624,13 +1628,13 @@ export default function App() {
                       <div className="panel-title">
                         <div>
                           <span className="eyebrow">
-                            CHALLENGER 2 · FAKESTORMER
+                            CHALLENGER 2 Â· FAKESTORMER
                           </span>
                           <h3>Temporal localization evidence</h3>
                           <p>
-                            Four temporal samples from FakeSTormer’s video-level
+                            Four temporal samples from FakeSTormerâ€™s video-level
                             inference, displayed separately from the other
-                            detectors’ frame-score timeline.
+                            detectorsâ€™ frame-score timeline.
                           </p>
                         </div>
                         <span className="mini-tag">
@@ -1668,7 +1672,7 @@ export default function App() {
                                           ? `Frame ${frameIndex}`
                                           : "Frame index unavailable"}
                                         {timestamp !== null
-                                          ? ` · ${timestamp.toFixed(2)} s`
+                                          ? ` Â· ${timestamp.toFixed(2)} s`
                                           : ""}
                                       </span>
                                       <strong>{value.toFixed(4)}</strong>
@@ -1734,7 +1738,7 @@ export default function App() {
                         These are uncalibrated sigmoid temporal-localization
                         outputs, not probabilities. The official FakeSTormer
                         label follows its own test_vid threshold rule and is not
-                        the VeriFrame verdict. VeriFrame’s overall verdict
+                        the VeriFrame verdict. VeriFrameâ€™s overall verdict
                         remains INCONCLUSIVE.
                       </p>
                     </section>
@@ -1782,7 +1786,7 @@ export default function App() {
                                   ? "Not available"
                                   : String(x.value)}
 
-                                {x.detail ? ` — ${x.detail}` : ""}
+                                {x.detail ? ` â€” ${x.detail}` : ""}
                               </p>
                             </div>
                           </div>
@@ -1850,7 +1854,7 @@ export default function App() {
                           <strong>
                             {stability?.score != null
                               ? Number(stability.score).toFixed(6)
-                              : "—"}
+                              : "â€”"}
                           </strong>
                         </div>
 
@@ -1864,7 +1868,7 @@ export default function App() {
                                 : ""
                             }
                           >
-                            {stability?.decision_flip_count ?? "—"}
+                            {stability?.decision_flip_count ?? "â€”"}
                           </strong>
                         </div>
                       </div>
@@ -1879,7 +1883,7 @@ export default function App() {
                         {stabilityBusy ? (
                           <>
                             <LoaderCircle className="spin" size={16} />
-                            `` Running stability tests…
+                            `` Running stability testsâ€¦
                           </>
                         ) : stability ? (
                           "Run Stability Check Again"
@@ -2251,7 +2255,7 @@ export default function App() {
 
                         <strong>
                           {result.metadata?.width && result.metadata?.height
-                            ? `${result.metadata.width} × ${result.metadata.height}`
+                            ? `${result.metadata.width} Ã— ${result.metadata.height}`
                             : "Unavailable"}
                         </strong>
                       </div>
@@ -2284,15 +2288,15 @@ export default function App() {
 
               <div className="bottom-note">
                 <ShieldCheck size={15} /> Results are evidence summaries, not
-                proof. “Likely authentic” must never be presented as verified
+                proof. â€œLikely authenticâ€ must never be presented as verified
                 authenticity.
               </div>
             </>
           )}
 
           <footer>
-            VERIFRAME · EVIDENCE-FIRST VIDEO FORENSICS{" "}
-            <span>Research prototype · v0.1.0</span>
+            VERIFRAME Â· EVIDENCE-FIRST VIDEO FORENSICS{" "}
+            <span>Research prototype Â· v0.1.0</span>
           </footer>
         </div>
         <dialog id="frame-preview-dialog" className="frame-preview-dialog">
@@ -2306,7 +2310,7 @@ export default function App() {
               dialog?.close();
             }}
           >
-            Close ✕
+            Close âœ•
           </button>
 
           <img id="frame-preview-image" alt="Enlarged forensic frame" />

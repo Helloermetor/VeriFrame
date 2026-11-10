@@ -26,6 +26,10 @@ import {
 } from "recharts";
 
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+const apiFetch = (
+  input: RequestInfo | URL,
+  init: RequestInit = {},
+) => fetch(input, { ...init, credentials: "include" });
 
 type Evaluation = {
   evaluation_id: string;
@@ -141,7 +145,7 @@ type ComparisonCurves = {
 
 function formatMetric(value: unknown) {
   if (typeof value !== "number" || !Number.isFinite(value)) {
-    return "Ã¢â‚¬â€";
+    return "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â";
   }
 
   return `${(value * 100).toFixed(2)}%`;
@@ -314,7 +318,7 @@ function CurveChart({
                 formatter={(value) =>
                   typeof value === "number"
                     ? value.toFixed(4)
-                    : String(value ?? "—")
+                    : String(value ?? "â€”")
                 }
               />
 
@@ -466,7 +470,7 @@ function ComparisonCurveChart({
                   formatter={(value) =>
                     typeof value === "number"
                       ? value.toFixed(4)
-                      : String(value ?? "—")
+                      : String(value ?? "â€”")
                   }
                 />
 
@@ -583,7 +587,7 @@ function ComparisonMetricTable({
                   <td>
                     <span className={deltaClass}>
                       {!hasDelta
-                        ? "—"
+                        ? "â€”"
                         : `${delta > 0 ? "+" : ""}${(delta * 100).toFixed(
                             2,
                           )} pp`}
@@ -661,9 +665,9 @@ export default function ModelEvaluation() {
       setError("");
 
       const [latestResponse, historyResponse] = await Promise.all([
-        fetch(`${API}/api/v1/model-evaluation`),
+        apiFetch(`${API}/api/v1/model-evaluation`),
 
-        fetch(`${API}/api/v1/model-evaluation/history`),
+        apiFetch(`${API}/api/v1/model-evaluation/history`),
       ]);
 
       if (!latestResponse.ok || !historyResponse.ok) {
@@ -715,7 +719,7 @@ export default function ModelEvaluation() {
 
     const timer = window.setInterval(async () => {
       try {
-        const response = await fetch(
+        const response = await apiFetch(
           `${API}/api/v1/model-evaluation/${latest.evaluation_id}`,
         );
 
@@ -758,7 +762,7 @@ export default function ModelEvaluation() {
       setCurves(null);
 
       try {
-        const response = await fetch(
+        const response = await apiFetch(
           `${API}/api/v1/model-evaluation/${latest!.evaluation_id}/curves`,
         );
 
@@ -837,11 +841,11 @@ export default function ModelEvaluation() {
 
       const [comparisonResponse, firstCurveResponse, secondCurveResponse] =
         await Promise.all([
-          fetch(`${API}/api/v1/model-evaluation/compare?${query.toString()}`),
+          apiFetch(`${API}/api/v1/model-evaluation/compare?${query.toString()}`),
 
-          fetch(`${API}/api/v1/model-evaluation/${firstComparisonId}/curves`),
+          apiFetch(`${API}/api/v1/model-evaluation/${firstComparisonId}/curves`),
 
-          fetch(`${API}/api/v1/model-evaluation/${secondComparisonId}/curves`),
+          apiFetch(`${API}/api/v1/model-evaluation/${secondComparisonId}/curves`),
         ]);
 
       const comparisonData = await comparisonResponse.json();
@@ -891,7 +895,7 @@ export default function ModelEvaluation() {
   }
 
   async function downloadPdf(url: string, filename: string) {
-    const response = await fetch(url);
+    const response = await apiFetch(url);
 
     if (!response.ok) {
       let message = "Could not generate the PDF report.";
@@ -971,7 +975,7 @@ export default function ModelEvaluation() {
     setError("");
 
     try {
-      const response = await fetch(`${API}/api/v1/model-evaluation/run`, {
+      const response = await apiFetch(`${API}/api/v1/model-evaluation/run`, {
         method: "POST",
 
         headers: { "Content-Type": "application/json" },
@@ -1075,9 +1079,9 @@ export default function ModelEvaluation() {
         <div className="eval-model-description">
           <strong>Custom DeepfakeBench Xception</strong>
 
-          <span>Source-disjoint checkpoint Ã‚· Binary classification</span>
+          <span>Source-disjoint checkpoint Ãƒâ€šÂ· Binary classification</span>
 
-          <span>Class 0: Original Ã‚· Class 1: Manipulated</span>
+          <span>Class 0: Original Ãƒâ€šÂ· Class 1: Manipulated</span>
         </div>
 
         <span className="status-pill neutral">
@@ -1118,15 +1122,15 @@ export default function ModelEvaluation() {
 
           <div className="eval-provenance-item">
             <span>Input image size</span>
-            <strong>256 × 256</strong>
+            <strong>256 Ã— 256</strong>
           </div>
         </div>
 
         <div className="eval-class-mapping">
           <span>Class mapping</span>
           <div>
-            <span className="eval-class-original">0 — Original</span>
-            <span className="eval-class-manipulated">1 — Manipulated</span>
+            <span className="eval-class-original">0 â€” Original</span>
+            <span className="eval-class-manipulated">1 â€” Manipulated</span>
           </div>
         </div>
       </section>
@@ -1294,7 +1298,7 @@ export default function ModelEvaluation() {
               <div className="eval-section-heading">
                 <h3>Frame-level performance</h3>
 
-                <span>{frame?.n ?? "Ã¢â‚¬â€"} evaluated frames</span>
+                <span>{frame?.n ?? "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â"} evaluated frames</span>
               </div>
 
               <div className="eval-metrics-grid">
@@ -1338,7 +1342,7 @@ export default function ModelEvaluation() {
               <div className="eval-section-heading">
                 <h3>Video-level performance</h3>
 
-                <span>{video?.n ?? "Ã¢â‚¬â€"} frame-folder aggregates</span>
+                <span>{video?.n ?? "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â"} frame-folder aggregates</span>
               </div>
 
               <div className="eval-metrics-grid">
@@ -1538,7 +1542,7 @@ export default function ModelEvaluation() {
 
                 <InfoRow
                   label="Input image size"
-                  value={`${summary.input_size} Ãƒ— ${summary.input_size}`}
+                  value={`${summary.input_size} ÃƒÆ’â€” ${summary.input_size}`}
                 />
 
                 <InfoRow label="Device" value={summary.device} />
@@ -1631,8 +1635,8 @@ export default function ModelEvaluation() {
 
                 .map((item) => (
                   <option key={item.evaluation_id} value={item.evaluation_id}>
-                    {item.split?.toUpperCase() || "RUN"} ·{" "}
-                    {item.evaluation_id.slice(0, 8)} ·{" "}
+                    {item.split?.toUpperCase() || "RUN"} Â·{" "}
+                    {item.evaluation_id.slice(0, 8)} Â·{" "}
                     {formatDate(item.created_at)}
                   </option>
                 ))}
@@ -1659,8 +1663,8 @@ export default function ModelEvaluation() {
 
                 .map((item) => (
                   <option key={item.evaluation_id} value={item.evaluation_id}>
-                    {item.split?.toUpperCase() || "RUN"} ·{" "}
-                    {item.evaluation_id.slice(0, 8)} ·{" "}
+                    {item.split?.toUpperCase() || "RUN"} Â·{" "}
+                    {item.evaluation_id.slice(0, 8)} Â·{" "}
                     {formatDate(item.created_at)}
                   </option>
                 ))}
@@ -1913,7 +1917,7 @@ export default function ModelEvaluation() {
               key={item.evaluation_id}
               onClick={async () => {
                 try {
-                  const response = await fetch(
+                  const response = await apiFetch(
                     `${API}/api/v1/model-evaluation/${item.evaluation_id}`,
                   );
 
@@ -1939,7 +1943,7 @@ export default function ModelEvaluation() {
 
               <span className="eval-history-info">
                 <strong>
-                  {item.split?.toUpperCase() || "EVALUATION"} Ã‚·{" "}
+                  {item.split?.toUpperCase() || "EVALUATION"} Ãƒâ€šÂ·{" "}
                   {item.evaluation_id.slice(0, 8)}
                 </strong>
 
@@ -1980,27 +1984,27 @@ function ConfusionMatrix({ matrix }: { matrix: any }) {
 
       <div className="eval-confusion-grid">
         <div>
-          <small>Actual original Ã‚· TN</small>
+          <small>Actual original Ãƒâ€šÂ· TN</small>
 
-          <strong>{matrix.tn ?? "Ã¢â‚¬â€"}</strong>
+          <strong>{matrix.tn ?? "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â"}</strong>
         </div>
 
         <div>
-          <small>Actual original Ã‚· FP</small>
+          <small>Actual original Ãƒâ€šÂ· FP</small>
 
-          <strong>{matrix.fp ?? "Ã¢â‚¬â€"}</strong>
+          <strong>{matrix.fp ?? "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â"}</strong>
         </div>
 
         <div>
-          <small>Actual manipulated Ã‚· FN</small>
+          <small>Actual manipulated Ãƒâ€šÂ· FN</small>
 
-          <strong>{matrix.fn ?? "Ã¢â‚¬â€"}</strong>
+          <strong>{matrix.fn ?? "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â"}</strong>
         </div>
 
         <div>
-          <small>Actual manipulated Ã‚· TP</small>
+          <small>Actual manipulated Ãƒâ€šÂ· TP</small>
 
-          <strong>{matrix.tp ?? "Ã¢â‚¬â€"}</strong>
+          <strong>{matrix.tp ?? "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â"}</strong>
         </div>
       </div>
     </div>
